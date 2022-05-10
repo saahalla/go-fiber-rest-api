@@ -13,7 +13,10 @@ func AddTodo(c *fiber.Ctx) error {
 	if err := c.BodyParser(todo); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
-	todo.Priority = "very-high"
+
+	if todo.Priority == "" {
+		todo.Priority = "very-high"
+	}
 	todo.IsActive = "true"
 
 	database.DBConn.Create(&todo)
