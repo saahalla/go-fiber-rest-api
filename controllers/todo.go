@@ -59,7 +59,7 @@ func UpdateTodo(c *fiber.Ctx) error {
 		return c.Status(400).JSON(err.Error())
 	}
 
-	database.DBConn.Model(&todo).Where("id = ?", c.Params("id")).Update("title", data.Title)
+	database.DBConn.Model(&todo).Where("id = ?", c.Params("id")).Updates(models.Todo{Title: data.Title, Priority: data.Priority, IsActive: data.IsActive, DeletedAt: data.DeletedAt})
 
 	return c.Status(400).JSON(fiber.Map{
 		"status":  "success",
