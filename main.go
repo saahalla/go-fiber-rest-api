@@ -40,6 +40,7 @@ func main() {
 	app.Get("todo/:id", services.GetTodo)
 	app.Post("/todo", services.AddTodo)
 	app.Delete("todo/:id", services.DeleteTodo)
+	app.Put("/todo/:id", services.UpdateTodo)
 
 	log.Fatal(app.Listen(":3000"))
 }

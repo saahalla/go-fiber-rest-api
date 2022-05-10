@@ -96,7 +96,6 @@ func AddTodo(c *fiber.Ctx) error {
 	}
 	defer res.Close()
 
-	// rows, err := database.Db.Query("SELECT * from todos WHERE id = LAST_INSERT_ID()")
 	fmt.Println(res)
 	return c.JSON(fiber.Map{
 		"status": "success",
@@ -120,5 +119,38 @@ func DeleteTodo(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"status":  "success",
 		"message": "Data Successfully Deleted",
+	})
+}
+
+func UpdateTodo(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var dataupdate = new(models.Todo)
+
+	if err := c.BodyParser(dataupdate); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"status": "error",
+			"error":  err.Error(),
+		})
+	}
+	fmt.Println(id, dataupdate)
+
+	res, err := database.Db.Query("UPDATE todos SET title = ? WHERE id = ?", dataupdate.Title, id)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"status": "error",
+			"error":  err.Error(),
+		})
+	}
+
+	log.Println(res)
+
+	return c.JSON(fiber.Map{
+		"status":  "success",
+		"message": "data updated",
+		"data": fiber.Map{
+			"id":    id,
+			"title": dataupdate.Title,
+		},
 	})
 }
