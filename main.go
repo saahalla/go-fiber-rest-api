@@ -3,28 +3,36 @@ package main
 import (
 	"log"
 
+	"go-api-gorm/controllers"
 	"go-api-gorm/database"
-	"go-api-gorm/routes"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func setUpRoutes(app *fiber.App) {
-	app.Get("/hello", routes.Hello)
-	app.Get("/allbooks", routes.AllBooks)
-	app.Get("/book/:id", routes.GetBook)
-	app.Post("/book", routes.AddBook)
-	app.Put("/book", routes.Update)
-	app.Delete("/book", routes.Delete)
+	app.Get("/hello", controllers.Hello)
+	app.Get("/allbooks", controllers.AllBooks)
+	app.Get("/book/:id", controllers.GetBook)
+	app.Post("/book", controllers.AddBook)
+	app.Put("/book", controllers.Update)
+	app.Delete("/book", controllers.Delete)
 }
 
 func ActivityRoutes(app *fiber.App) {
-	app.Get("/activity", routes.GetAllActivity)
-	app.Get("/activity/:id", routes.GetActivityById)
-	app.Post("/activity", routes.AddActivity)
-	app.Put("/activity/:id", routes.UpdateActivity)
-	app.Delete("/activity/:id", routes.DeleteActivity)
+	app.Get("/activity", controllers.GetAllActivity)
+	app.Get("/activity/:id", controllers.GetActivityById)
+	app.Post("/activity", controllers.AddActivity)
+	app.Put("/activity/:id", controllers.UpdateActivity)
+	app.Delete("/activity/:id", controllers.DeleteActivity)
+}
+
+func TodoRouter(app *fiber.App) {
+	app.Get("/todos", controllers.GetAllTodo)
+	app.Get("/todo/:id", controllers.GetTodoById)
+	app.Post("/todo", controllers.AddTodo)
+	app.Put("/todo/:id", controllers.UpdateTodo)
+	app.Delete("/todo/:id", controllers.DeleteTodo)
 }
 
 func main() {
@@ -33,6 +41,7 @@ func main() {
 
 	setUpRoutes(app)
 	ActivityRoutes(app)
+	TodoRouter(app)
 
 	app.Use(cors.New())
 

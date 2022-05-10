@@ -1,4 +1,4 @@
-package routes
+package controllers
 
 import (
 	"go-api-gorm/database"
@@ -16,7 +16,10 @@ func AddActivity(c *fiber.Ctx) error {
 
 	database.DBConn.Create(&activity)
 
-	return c.Status(200).JSON(activity)
+	return c.Status(200).JSON(fiber.Map{
+		"status": "success",
+		"data":   activity,
+	})
 }
 
 //GetActivityById
@@ -25,7 +28,10 @@ func GetActivityById(c *fiber.Ctx) error {
 
 	database.DBConn.First(&activity, c.Params("id"))
 
-	return c.Status(200).JSON(activity)
+	return c.Status(200).JSON(fiber.Map{
+		"status": "success",
+		"data":   activity,
+	})
 }
 
 //GetAllActivity
@@ -34,7 +40,10 @@ func GetAllActivity(c *fiber.Ctx) error {
 
 	database.DBConn.Find(&activity)
 
-	return c.Status(200).JSON(activity)
+	return c.Status(200).JSON(fiber.Map{
+		"status": "success",
+		"data":   activity,
+	})
 }
 
 //UpdateActivity
@@ -47,7 +56,10 @@ func UpdateActivity(c *fiber.Ctx) error {
 
 	database.DBConn.Model(&activity).Where("id = ?", c.Params("id")).Update("title", data.Title)
 
-	return c.Status(400).JSON("updated")
+	return c.Status(400).JSON(fiber.Map{
+		"status":  "success",
+		"message": "updated",
+	})
 }
 
 //Delete
@@ -62,5 +74,8 @@ func DeleteActivity(c *fiber.Ctx) error {
 	}
 	database.DBConn.Where("id = ?", c.Params("id")).Delete(&activity)
 
-	return c.Status(200).JSON("deleted")
+	return c.Status(200).JSON(fiber.Map{
+		"status":  "success",
+		"message": "deleted",
+	})
 }

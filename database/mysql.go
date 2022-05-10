@@ -45,6 +45,7 @@ func ConnectDb() {
 	log.Println("connected")
 	db.AutoMigrate(&models.Book{})
 	db.AutoMigrate(&models.Activity{})
+	db.AutoMigrate(&models.Todo{})
 	DBConn = db
 
 }
