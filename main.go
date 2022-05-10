@@ -39,6 +39,7 @@ func main() {
 	app.Get("/todos", services.GetAll)
 	app.Get("todo/:id", services.GetTodo)
 	app.Post("/todo", services.AddTodo)
+	app.Delete("todo/:id", services.DeleteTodo)
 
 	log.Fatal(app.Listen(":3000"))
 }

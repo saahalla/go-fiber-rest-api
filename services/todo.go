@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-api/models"
 	"go-api/modules/database"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -16,7 +17,7 @@ func GetAll(c *fiber.Ctx) error {
 		fmt.Println(err)
 		return c.JSON(fiber.Map{
 			"status": "error",
-			"error":  err,
+			"error":  err.Error(),
 		})
 	}
 
@@ -25,7 +26,7 @@ func GetAll(c *fiber.Ctx) error {
 		if err := rows.Scan(&todo.ID, &todo.Activity_Group_ID, &todo.Title, &todo.Is_Active, &todo.Priority, &todo.Create_At, &todo.Update_At, &todo.Delete_At); err != nil {
 			return c.JSON(fiber.Map{
 				"status": "error",
-				"error":  err,
+				"error":  err.Error(),
 			})
 		}
 
@@ -50,15 +51,16 @@ func GetTodo(c *fiber.Ctx) error {
 		fmt.Println(err)
 		return c.JSON(fiber.Map{
 			"status": "error",
-			"error":  err,
+			"error":  err.Error(),
 		})
 	}
 
 	for rows.Next() {
 		if err := rows.Scan(&todo.ID, &todo.Activity_Group_ID, &todo.Title, &todo.Is_Active, &todo.Priority, &todo.Create_At, &todo.Update_At, &todo.Delete_At); err != nil {
+			fmt.Println(err.Error())
 			return c.JSON(fiber.Map{
 				"status": "error",
-				"error":  err,
+				"error":  err.Error(),
 			})
 		}
 	}
@@ -98,6 +100,25 @@ func AddTodo(c *fiber.Ctx) error {
 	fmt.Println(res)
 	return c.JSON(fiber.Map{
 		"status": "success",
-		"data":   newtodo,
+		"data": fiber.Map{
+			"title": newtodo.Title,
+		},
+	})
+}
+
+func DeleteTodo(c *fiber.Ctx) error {
+	id := c.Params("id")
+	res, err := database.Db.Query("DELETE FROM todos WHERE id = ?", id)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"status": "error",
+			"error":  err.Error(),
+		})
+	}
+	log.Println(res)
+	return c.JSON(fiber.Map{
+		"status":  "success",
+		"message": "Data Successfully Deleted",
 	})
 }
