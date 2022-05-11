@@ -15,6 +15,6 @@ type Todo struct {
 	UpdatedAt       time.Time      `json:"updated_at"`
 	DeletedAt       gorm.DeletedAt `json:"delete_at"`
 	Title           string         `json:"title"`
-	IsActive        string         `json:"is_active"`
+	IsActive        bool           `json:"is_active"`
 	Priority        string         `json:"priority"`
 }

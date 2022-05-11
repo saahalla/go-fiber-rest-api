@@ -25,13 +25,24 @@ func AddActivity(c *fiber.Ctx) error {
 //GetActivityById
 func GetActivityById(c *fiber.Ctx) error {
 	activity := []models.Activity{}
+	todos := []models.Todo{}
 
 	database.DBConn.First(&activity, c.Params("id"))
+	database.DBConn.Debug().Where("activity_group_id = ?", c.Params("id")).Find(&todos)
 
-	return c.Status(200).JSON(fiber.Map{
-		"status": "success",
-		"data":   activity,
-	})
+	if len(activity) > 0 {
+		return c.Status(200).JSON(fiber.Map{
+			"status":     "success",
+			"data":       activity[0],
+			"todo_items": todos,
+		})
+	} else {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"status": "error",
+			"error":  "Data Not Found",
+		})
+	}
+
 }
 
 //GetAllActivity

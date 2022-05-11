@@ -17,7 +17,7 @@ func AddTodo(c *fiber.Ctx) error {
 	if todo.Priority == "" {
 		todo.Priority = "very-high"
 	}
-	todo.IsActive = "true"
+	todo.IsActive = true
 
 	database.DBConn.Create(&todo)
 
