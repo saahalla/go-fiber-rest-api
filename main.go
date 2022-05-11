@@ -20,11 +20,11 @@ func setUpRoutes(app *fiber.App) {
 }
 
 func ActivityRoutes(app *fiber.App) {
-	app.Get("/activity", controllers.GetAllActivity)
-	app.Get("/activity/:id", controllers.GetActivityById)
-	app.Post("/activity", controllers.AddActivity)
-	app.Put("/activity/:id", controllers.UpdateActivity)
-	app.Delete("/activity/:id", controllers.DeleteActivity)
+	app.Get("/activity-groups", controllers.GetAllActivity)
+	app.Get("/activity-groups/:id", controllers.GetActivityById)
+	app.Post("/activity-groups", controllers.AddActivity)
+	app.Put("/activity-groups/:id", controllers.UpdateActivity)
+	app.Delete("/activity-groups/:id", controllers.DeleteActivity)
 }
 
 func TodoRouter(app *fiber.App) {
