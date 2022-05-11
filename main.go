@@ -28,11 +28,11 @@ func ActivityRoutes(app *fiber.App) {
 }
 
 func TodoRouter(app *fiber.App) {
-	app.Get("/todos", controllers.GetAllTodo)
-	app.Get("/todo/:id", controllers.GetTodoById)
-	app.Post("/todo", controllers.AddTodo)
-	app.Put("/todo/:id", controllers.UpdateTodo)
-	app.Delete("/todo/:id", controllers.DeleteTodo)
+	app.Get("/todo-items", controllers.GetAllTodo)
+	app.Get("/todo-items/:id", controllers.GetTodoById)
+	app.Post("/todo-items", controllers.AddTodo)
+	app.Put("/todo-items/:id", controllers.UpdateTodo)
+	app.Delete("/todo-items/:id", controllers.DeleteTodo)
 }
 
 func main() {
