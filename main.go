@@ -39,6 +39,12 @@ func main() {
 	database.ConnectDb()
 	app := fiber.New()
 
+	// fix bug cors vue axios golang
+	app.Use(func(c *fiber.Ctx) error {
+		c.Set("Access-Control-Allow-Origin", "*")
+		return c.Next()
+	})
+
 	setUpRoutes(app)
 	ActivityRoutes(app)
 	TodoRouter(app)
